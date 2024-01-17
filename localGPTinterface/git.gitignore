@@ -1,0 +1,4 @@
+# ignore LLM files as too big to upload to remote
+
+*.gguf
+
