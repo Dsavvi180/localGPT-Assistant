@@ -38,7 +38,7 @@ sentences = split_text_into_sentences(text)
 embeddingsResult = embed_sentences(sentences)
 
 chroma_client = chromadb.Client()
-collection = chroma_client.create_collection(name="Wiki_context_data", metadata={"hnsw:space": "cosine"})
+collection = chroma_client.create_collection(name="***", metadata={"hnsw:space": "cosine"})
 
 def id_generator():
     idArray = []
@@ -49,8 +49,8 @@ def id_generator():
 
 collection.add(embeddings = embeddingsResult, ids = id_generator(), documents= sentences)
 
-question1 = "What is the ObjectID of EventsAir"
-issue = "I cannot create bookings with Events Air. "
+question1 = ""
+issue = ""
 
 
 results = collection.query(
@@ -65,26 +65,10 @@ def Myconcat():
         x += i
     return x
 context = Myconcat()
-print(f"text: {Myconcat()}" )
-
-# modelPath = (Path.home()/'desktop'/'localGPTinterface'/'gpt4all')  
-# model = GPT4All(model_name='orca-mini-3b-gguf2-q4_0.gguf',
-#                 model_path=modelPath,
-#                 allow_download=False)
-# output = model.generate(f"You are now a personalised assistant. Answer any questions from the Context Text provided."
-#                         f" Provide just the term for the Object ID. QUESTION: "
-#                         f"What is the ObjectId for EventsAir? Text Context: {Myconcat()}", max_tokens=100)
-# print("Output:",output,'\n modelPath: ',  modelPath)   
+print(f"text: {Myconcat()}" ) 
 
 
-template = """You are now a personalised IT assistant. Answer all questions based on the text provided. Your job is to provide an Object ID from the context provided based on the 
-issue you have at hand. In general, the issues are IT related and we are organizing each issues into categories based on object IDs. You need to provide an Object ID that you think 
-best fits the issue. The subject of an issue often gives the best indication of the relevant Object ID. Choose an object ID from the following list ONLY:
-Only reply with an ObjectID.
-Object IDs: Email & Diary, Zoom, Events Air, Managed Mobile Requests, Office 365, Power BI, SAPS Business suite,Jira, No assignable object.
-
-HINT: The objectID can be found in the subject
-Question: {question}
+template = """
 """
 prompt = PromptTemplate(template=template, input_variables=["question"])
 
@@ -95,6 +79,5 @@ callbacks = [StreamingStdOutCallbackHandler()]
 llm = GPT4All(model=local_path, callbacks=callbacks, verbose=True, allow_download=False)
 
 llm_chain = LLMChain(prompt=prompt, llm=llm)
-question = f"What is the ObjectID of this {issue} ? Use the data in the following text to aid your answer. {context}."
-print(f"here is output of llm: \n")
+question = f"")
 llm_chain.run(question)
